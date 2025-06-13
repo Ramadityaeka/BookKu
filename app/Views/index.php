@@ -23,6 +23,7 @@
         }
     </style>
 </head>
+        <?php include(APPPATH . 'Views/template/header.php'); ?>
 <body class="gradient-bg min-h-screen">
     <div class="container mx-auto px-4 py-16">
         <div class="flex flex-col md:flex-row items-center">
@@ -101,6 +102,8 @@
             </div>
         </div>
     </div>
+
+        header
 
     <script>
     // --- SCRIPT PENCARIAN YANG DISEMPURNAKAN ---

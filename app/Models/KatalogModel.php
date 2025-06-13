@@ -4,28 +4,31 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class Jwp_model extends Model
+class KatalogModel extends Model
 {
     protected $table = 'katalog';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['judul', 'deskripsi', 'gambar'];
+    
+    // DIUBAH: Field baru ditambahkan di sini
+    protected $allowedFields = ['judul', 'deskripsi', 'gambar', 'genre', 'tentang_buku', 'sinopsis'];
+    
     protected $useTimestamps = true;
     protected $createdField = 'created_at';
     protected $updatedField = 'updated_at';
 
-    // Get all articles
+    // Get all articles/books
     public function getAllArticles()
     {
-        return $this->findAll();
+        return $this->orderBy('created_at', 'DESC')->findAll();
     }
 
-    // Get single article
+    // Get single article/book
     public function getArticle($id)
     {
         return $this->find($id);
     }
 
-    // Search articles
+    // Search articles/books
     public function searchArticles($keyword)
     {
         return $this->like('judul', $keyword)
@@ -33,14 +36,10 @@ class Jwp_model extends Model
                     ->findAll();
     }
 
-    // Count articles
-    public function countArticles()
-    {
-        return $this->countAll();
-    }    // Get book by ID
+    // Get book by ID (bisa disederhanakan/dihapus jika tidak dipakai khusus)
     public function getBookById($id)
     {
-        return $this->select('id, judul as title, deskripsi as description, gambar as image')
+        return $this->select('id, judul, deskripsi, gambar, genre, tentang_buku, sinopsis')
                     ->where('id', $id)
                     ->first();
     }

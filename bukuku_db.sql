@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 13, 2025 at 11:47 AM
+-- Generation Time: Jun 13, 2025 at 10:00 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `buku_db`
+-- Database: `bukuku_db`
 --
 
 -- --------------------------------------------------------
@@ -34,6 +34,7 @@ CREATE TABLE `booking` (
   `nama_user` varchar(100) NOT NULL,
   `no_hp` varchar(20) NOT NULL,
   `tanggal_booking` datetime DEFAULT current_timestamp(),
+  `batas_waktu_pengambilan` datetime DEFAULT NULL,
   `status` enum('pending','approved','denied') DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -41,11 +42,9 @@ CREATE TABLE `booking` (
 -- Dumping data for table `booking`
 --
 
-INSERT INTO `booking` (`id`, `user_id`, `buku_id`, `nama_user`, `no_hp`, `tanggal_booking`, `status`) VALUES
-(2, 1, 4, 'dasdad', '1231231231', '2025-06-12 07:19:15', 'pending'),
-(3, 1, 3, 'rararar', '1251521241', '2025-06-12 07:31:16', 'approved'),
-(4, 1, 3, 'asdasggg', '1231231231', '2025-06-12 07:31:32', 'denied'),
-(5, NULL, 3, '124124', '1231231231', '2025-06-12 07:41:34', 'pending');
+INSERT INTO `booking` (`id`, `user_id`, `buku_id`, `nama_user`, `no_hp`, `tanggal_booking`, `batas_waktu_pengambilan`, `status`) VALUES
+(9, 1, 7, 'ramaditya', '087742855057', '2025-06-13 12:12:35', '2025-06-14 12:12:35', 'approved'),
+(10, 1, 7, 'ramaditya', '087742855057', '2025-06-13 18:31:00', '2025-06-14 18:31:00', 'denied');
 
 -- --------------------------------------------------------
 
@@ -58,6 +57,9 @@ CREATE TABLE `katalog` (
   `judul` varchar(255) DEFAULT NULL,
   `deskripsi` text DEFAULT NULL,
   `gambar` varchar(255) DEFAULT NULL,
+  `genre` varchar(100) DEFAULT NULL,
+  `tentang_buku` text DEFAULT NULL,
+  `sinopsis` text DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp(),
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -66,9 +68,9 @@ CREATE TABLE `katalog` (
 -- Dumping data for table `katalog`
 --
 
-INSERT INTO `katalog` (`id`, `judul`, `deskripsi`, `gambar`, `created_at`, `updated_at`) VALUES
-(3, 'artikel 2', 'sadas', '1749711278_5c38602ffe03a7fc1b7d.png', '2025-06-12 06:54:38', '2025-06-12 06:54:38'),
-(4, 'artikel 2', 'sadasd', '1749712735_fef0e866162e9fcef6c1.png', '2025-06-12 07:18:55', '2025-06-12 07:18:55');
+INSERT INTO `katalog` (`id`, `judul`, `deskripsi`, `gambar`, `genre`, `tentang_buku`, `sinopsis`, `created_at`, `updated_at`) VALUES
+(7, 'Petualangan di Hutan Ajaib', 'Buku ini menceritakan kisah seorang anak bernama Raka yang tersesat di hutan ajaib dan bertemu dengan berbagai makhluk mitos. Cocok untuk anak-anak usia 7-12 tahun yang menyukai fantasi dan petualangan.', '1749812295_4ef64bc341fee60a1198.png', NULL, NULL, NULL, '2025-06-13 10:55:12', '2025-06-13 11:03:33'),
+(8, 'kocak gaming simulator', 'asda', '1749812128_258e9032729a876b18ef.png', 'saasas', 'saas', 'saas', '2025-06-13 10:55:28', '2025-06-13 19:41:22');
 
 -- --------------------------------------------------------
 
@@ -126,13 +128,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `katalog`
 --
 ALTER TABLE `katalog`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `users`

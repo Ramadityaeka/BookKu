@@ -17,8 +17,7 @@
     </style>
 </head>
 <body class="bg-gray-50">
-    <!-- Include Header -->
-    <?= $this->include('template/header') ?>
+    <?php include(APPPATH . 'Views/template/header.php'); ?>
 
     <main class="container mx-auto px-4 py-12">
         <div class="text-center mb-12">
@@ -184,7 +183,31 @@
             observer.observe(item);
         });
 
+        // --- Mobile Menu Toggle ---
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
     });
     </script>
 </body>
 </html>
+    <script>
+    // --- SCRIPT ANIMASI FAQ ---
+    document.addEventListener('DOMContentLoaded', () => {
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            item.classList.add('opacity-0', '-translate-y-2');
+            item.style.transition = 'all 0.5s ease-out';
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.remove('opacity-0', '-translate-y-2');
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        faqItems.forEach(item => observer.observe(item));
+    });
+    </script>

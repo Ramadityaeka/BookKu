@@ -1,146 +1,117 @@
 <?php
 
+
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Models\KatalogModel; 
 
 class DashboardController extends BaseController
 {
-    protected $jwpModel;
-    protected $bookingModel;
+    protected $katalogModel;
 
     public function __construct()
     {
-        $this->jwpModel = new \App\Models\Jwp_model();
-        $this->bookingModel = new \App\Models\BookingModel();
-    }    public function index()
+        $this->katalogModel = new KatalogModel();
+    }
+
+    public function index()
     {
         return view('admin/dashboard_view', [
             'title' => 'Admin Dashboard',
-            'articles' => $this->jwpModel->findAll()
-        ]);
-    }
-
-    public function createArticle()
-    {
-        return view('admin/create_article', [
-            'title' => 'Create Article'
+            'articles' => $this->katalogModel->orderBy('created_at', 'DESC')->findAll()
         ]);
     }
 
     public function storeArticle()
     {
-        // Validate input
         $rules = [
-            'judul' => 'required|min_length[3]|max_length[255]',
-            'deskripsi' => 'required',
+            'judul' => ['rules' => 'required|min_length[3]', 'errors' => ['required' => 'Judul harus diisi.']],
+            'genre' => ['rules' => 'required|max_length[100]', 'errors' => ['required' => 'Genre harus diisi.']],
+            'deskripsi' => ['rules' => 'required', 'errors' => ['required' => 'Deskripsi singkat harus diisi.']],
+            'tentang_buku' => ['rules' => 'required', 'errors' => ['required' => 'Tentang buku harus diisi.']],
+            'sinopsis' => ['rules' => 'required', 'errors' => ['required' => 'Sinopsis harus diisi.']],
             'gambar' => [
-                'uploaded[gambar]',
-                'mime_in[gambar,image/jpg,image/jpeg,image/png]',
-                'max_size[gambar,2048]',
+                'rules' => 'uploaded[gambar]|max_size[gambar,2048]|is_image[gambar]|mime_in[gambar,image/jpg,image/jpeg,image/png]',
+                'errors' => [
+                    'uploaded' => 'Anda harus memilih gambar cover.',
+                    'max_size' => 'Ukuran gambar maksimal 2MB.',
+                    'is_image' => 'File harus berupa gambar.',
+                    'mime_in' => 'Format gambar harus JPG, JPEG, atau PNG.'
+                ]
             ]
         ];
 
         if (!$this->validate($rules)) {
-            return redirect()->back()
-                           ->withInput()
-                           ->with('errors', $this->validator->getErrors());
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
         $img = $this->request->getFile('gambar');
         $newName = $img->getRandomName();
-        $img->move(WRITEPATH . 'uploads', $newName);
+        $img->move(FCPATH . 'uploads', $newName);
 
         $data = [
-            'judul' => $this->request->getPost('judul'),
-            'deskripsi' => $this->request->getPost('deskripsi'),
-            'gambar' => $newName,
-            'created_at' => date('Y-m-d H:i:s')
+            'judul'        => $this->request->getPost('judul'),
+            'deskripsi'    => $this->request->getPost('deskripsi'),
+            'gambar'       => $newName,
+            'genre'        => $this->request->getPost('genre'),
+            'tentang_buku' => $this->request->getPost('tentang_buku'),
+            'sinopsis'     => $this->request->getPost('sinopsis'),
         ];
 
-        $this->jwpModel->insert($data);
-        return redirect()->to('/admin/dashboard')
-                        ->with('success', 'Article added successfully');
-    }
-
-    public function editArticle($id)
-    {
-        $article = $this->jwpModel->find($id);
-
-        if (!$article) {
-            return redirect()->back()
-                           ->with('error', 'Article not found');
-        }
-
-        return view('admin/edit_article', [
-            'title' => 'Edit Article',
-            'article' => $article
-        ]);
+        $this->katalogModel->insert($data);
+        return redirect()->to('admin/dashboard')->with('success', 'Buku baru berhasil ditambahkan.');
     }
 
     public function updateArticle($id)
     {
         $rules = [
-            'judul' => 'required|min_length[3]|max_length[255]',
-            'deskripsi' => 'required'
+            'judul' => ['rules' => 'required|min_length[3]', 'errors' => ['required' => 'Judul harus diisi.']],
+            'genre' => ['rules' => 'required|max_length[100]', 'errors' => ['required' => 'Genre harus diisi.']],
+            'deskripsi' => ['rules' => 'required', 'errors' => ['required' => 'Deskripsi singkat harus diisi.']],
+            'tentang_buku' => ['rules' => 'required', 'errors' => ['required' => 'Tentang buku harus diisi.']],
+            'sinopsis' => ['rules' => 'required', 'errors' => ['required' => 'Sinopsis harus diisi.']]
         ];
 
-        // Only validate image if one was uploaded
         if ($this->request->getFile('gambar')->isValid()) {
-            $rules['gambar'] = [
-                'uploaded[gambar]',
-                'mime_in[gambar,image/jpg,image/jpeg,image/png]',
-                'max_size[gambar,2048]'
-            ];
+            $rules['gambar'] = 'max_size[gambar,2048]|is_image[gambar]|mime_in[gambar,image/jpg,image/jpeg,image/png]';
         }
 
         if (!$this->validate($rules)) {
-            return redirect()->back()
-                           ->withInput()
-                           ->with('errors', $this->validator->getErrors());
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
         $data = [
-            'judul' => $this->request->getPost('judul'),
-            'deskripsi' => $this->request->getPost('deskripsi'),
-            'updated_at' => date('Y-m-d H:i:s')
+            'judul'        => $this->request->getPost('judul'),
+            'deskripsi'    => $this->request->getPost('deskripsi'),
+            'genre'        => $this->request->getPost('genre'),
+            'tentang_buku' => $this->request->getPost('tentang_buku'),
+            'sinopsis'     => $this->request->getPost('sinopsis'),
         ];
-
-        // Handle image upload if a new image was provided
-        if ($this->request->getFile('gambar')->isValid()) {
-            $img = $this->request->getFile('gambar');
-            $newName = $img->getRandomName();
-            $img->move(WRITEPATH . 'uploads', $newName);
-            $data['gambar'] = $newName;
-
-            // Delete old image
-            $oldImage = $this->jwpModel->find($id)['gambar'];
-            if ($oldImage && file_exists(WRITEPATH . 'uploads/' . $oldImage)) {
-                unlink(WRITEPATH . 'uploads/' . $oldImage);
+        
+        $img = $this->request->getFile('gambar');
+        if ($img->isValid() && !$img->hasMoved()) {
+            $oldImage = $this->katalogModel->find($id)['gambar'];
+            if ($oldImage && file_exists(FCPATH . 'uploads/' . $oldImage)) {
+                unlink(FCPATH . 'uploads/' . $oldImage);
             }
+            $newName = $img->getRandomName();
+            $img->move(FCPATH . 'uploads', $newName);
+            $data['gambar'] = $newName;
         }
 
-        $this->jwpModel->update($id, $data);
-        return redirect()->to('/admin/dashboard')
-                        ->with('success', 'Article updated successfully');
+        $this->katalogModel->update($id, $data);
+        return redirect()->to('admin/dashboard')->with('success', 'Buku berhasil diperbarui.');
     }
 
     public function deleteArticle($id)
     {
-        $article = $this->jwpModel->find($id);
-
-        if ($article) {
-            // Delete image file if it exists
-            if ($article['gambar'] && file_exists(WRITEPATH . 'uploads/' . $article['gambar'])) {
-                unlink(WRITEPATH . 'uploads/' . $article['gambar']);
-            }
-
-            $this->jwpModel->delete($id);
-            return redirect()->to('/admin/dashboard')
-                           ->with('success', 'Article deleted successfully');
+        $article = $this->katalogModel->find($id);
+        if ($article && !empty($article['gambar']) && file_exists(FCPATH . 'uploads/' . $article['gambar'])) {
+            unlink(FCPATH . 'uploads/' . $article['gambar']);
         }
 
-        return redirect()->back()
-                       ->with('error', 'Article not found');
+        $this->katalogModel->delete($id);
+        return redirect()->to('admin/dashboard')->with('success', 'Buku berhasil dihapus.');
     }
 }

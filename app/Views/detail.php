@@ -7,6 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+    <?php include(APPPATH . 'Views/template/header.php'); ?>
+
 <body class="bg-gray-100">    <div class="container mx-auto px-4 py-8">
         <div class="max-w-4xl mx-auto">
             <!-- Book Details Card -->
@@ -41,30 +43,54 @@
                                     Novel
                                 </span>
                             </div>
+                        </div>                        <div class="prose max-w-none mb-8">
+                            <div class="bg-gradient-to-r from-indigo-50 to-white p-4 rounded-lg border border-indigo-100 mb-6">
+                                <h2 class="text-xl font-semibold mb-3 text-indigo-800">
+                                    <i class="fas fa-quote-left text-indigo-400 mr-2"></i>
+                                    Sinopsis
+                                </h2>
+                                <div class="text-gray-700 leading-relaxed">
+                                    <?= nl2br(esc($article['sinopsis'] ?? $article['deskripsi'])) ?>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="prose max-w-none mb-8">
-                            <h2 class="text-xl font-semibold mb-3">Sinopsis</h2>
-                            <?= nl2br(esc($article['deskripsi'])) ?>
-                        </div>                        <!-- Book Details Grid -->
-                        <div class="grid grid-cols-2 gap-4 mb-6 text-sm">
-                            <div>
-                                <p class="text-gray-600">Kode Buku</p>
-                                <p class="font-medium">BK-<?= str_pad($article['id'], 4, '0', STR_PAD_LEFT) ?></p>
+                        <!-- Book Details Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <!-- Left Column -->
+                            <div class="space-y-4">
+                                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                                    <p class="text-sm text-gray-600 mb-1">Kode Buku</p>
+                                    <p class="font-medium text-gray-800">
+                                        <i class="fas fa-hashtag text-indigo-400 mr-2"></i>
+                                        BK-<?= str_pad($article['id'], 4, '0', STR_PAD_LEFT) ?>
+                                    </p>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                                    <p class="text-sm text-gray-600 mb-1">Genre</p>
+                                    <p class="font-medium text-gray-800">
+                                        <i class="fas fa-bookmark text-indigo-400 mr-2"></i>
+                                        <?= esc($article['genre'] ?? 'Novel') ?>
+                                    </p>
+                                </div>
                             </div>
-                            <div>
-                                <p class="text-gray-600">Kategori</p>
-                                <p class="font-medium">Novel</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-600">Status</p>
-                                <p class="font-medium text-green-600">
-                                    <i class="fas fa-check-circle mr-1"></i> Tersedia
-                                </p>
-                            </div>
-                            <div>
-                                <p class="text-gray-600">Lokasi Rak</p>
-                                <p class="font-medium">Lantai 1 - Rak A3</p>
+                            
+                            <!-- Right Column -->
+                            <div class="space-y-4">
+                                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                                    <p class="text-sm text-gray-600 mb-1">Status</p>
+                                    <p class="font-medium text-green-600">
+                                        <i class="fas fa-check-circle mr-2"></i>
+                                        Tersedia untuk Dipinjam
+                                    </p>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                                    <p class="text-sm text-gray-600 mb-1">Lokasi</p>
+                                    <p class="font-medium text-gray-800">
+                                        <i class="fas fa-map-marker-alt text-indigo-400 mr-2"></i>
+                                        Lantai 1 - Rak A3
+                                    </p>
+                                </div>
                             </div>
                         </div>
 
@@ -76,14 +102,48 @@
                         </button>
                     </div>
                 </div>
-            </div>
+            </div>            <!-- Book Synopsis Card -->
+            <div class="mt-6 space-y-6">
+                <!-- About This Book -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <div class="p-6">
+                        <h2 class="text-2xl font-bold mb-6 text-gray-800 flex items-center">
+                            <i class="fas fa-book-open text-indigo-500 mr-3"></i>
+                            Tentang Buku Ini
+                        </h2>
+                        <div class="prose prose-indigo max-w-none">
+                            <div class="bg-gradient-to-br from-white to-indigo-50 p-6 rounded-lg border border-indigo-100">
+                                <?= nl2br(esc($article['tentang_buku'] ?? $article['deskripsi'])) ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-            <!-- Book Synopsis Card -->
-            <div class="mt-6 bg-white rounded-lg shadow-lg overflow-hidden">
-                <div class="p-6">
-                    <h2 class="text-2xl font-bold mb-4">Tentang Buku Ini</h2>
-                    <div class="prose prose-indigo max-w-none">
-                        <?= nl2br(esc($article['deskripsi'])) ?>
+                <!-- Additional Information -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <div class="p-6">
+                        <h2 class="text-2xl font-bold mb-6 text-gray-800 flex items-center">
+                            <i class="fas fa-info-circle text-indigo-500 mr-3"></i>
+                            Informasi Tambahan
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h3 class="font-semibold text-gray-700 mb-2">Panduan Peminjaman</h3>
+                                <ul class="list-disc list-inside text-gray-600 space-y-2">
+                                    <li>Maksimal durasi peminjaman adalah 7 hari</li>
+                                    <li>Harap membawa kartu identitas saat pengambilan</li>
+                                    <li>Buku harus dikembalikan dalam kondisi baik</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-700 mb-2">Ketentuan</h3>
+                                <ul class="list-disc list-inside text-gray-600 space-y-2">
+                                    <li>Denda keterlambatan Rp5.000/hari</li>
+                                    <li>Penggantian buku jika rusak/hilang</li>
+                                    <li>Tidak dapat diperpanjang jika ada antrian</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

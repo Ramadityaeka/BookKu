@@ -6,141 +6,60 @@
     <title><?= $title ?? 'Admin Dashboard' ?> - BookKu</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#4F46E5',
-                        secondary: '#10B981',
-                        danger: '#EF4444'
-                    }
-                }
-            }
-        }
-    </script>
     <style>
-        .sidebar {
-            transition: all 0.3s ease;
-        }
+        .sidebar { transition: all 0.3s ease; }
         @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-            .sidebar.active {
-                transform: translateX(0);
-            }
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.active { transform: translateX(0); }
         }
-        .modal {
-            transition: opacity 0.3s ease;
-        }
-        .article-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-        .image-preview {
-            max-height: 200px;
-            object-fit: contain;
-        }
+        .article-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); }
     </style>
 </head>
-<body class="bg-gray-100">    <div class="min-h-screen flex">
-        <!-- Mobile Overlay -->
-        <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden"></div>
-        
-        <!-- Sidebar -->
-        <div class="sidebar fixed inset-y-0 left-0 bg-white w-64 shadow-lg z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
-            <div class="flex items-center justify-between h-16 px-4 bg-primary text-white">
+<body class="bg-gray-100">
+    <div class="min-h-screen flex">
+        <aside class="sidebar fixed inset-y-0 left-0 bg-white w-64 shadow-lg z-50 transform -translate-x-full md:translate-x-0">
+            <div class="flex items-center justify-between h-16 px-4 bg-indigo-600 text-white">
                 <h1 class="text-xl font-bold">Library Admin</h1>
-                <button class="md:hidden focus:outline-none" id="closeSidebar">
-                    <i class="fas fa-times"></i>
-                </button>
+                <button class="md:hidden focus:outline-none" id="closeSidebarBtn">&times;</button>
             </div>
-            <nav class="mt-6">                <div class="px-4">
-                    <a href="<?= base_url('admin/dashboard') ?>" class="flex items-center px-4 py-3 <?= service('request')->uri->getPath() === 'admin/dashboard' ? 'bg-indigo-50 text-primary' : 'text-gray-500 hover:bg-indigo-50 hover:text-primary' ?> rounded-lg">
-                        <i class="fas fa-tachometer-alt w-5 mr-3"></i>
-                        <span>Dashboard</span>
-                    </a>
-                    <a href="<?= base_url('admin/bookings') ?>" class="flex items-center px-4 py-3 <?= service('request')->uri->getPath() === 'admin/bookings' ? 'bg-indigo-50 text-primary' : 'text-gray-500 hover:bg-indigo-50 hover:text-primary' ?> rounded-lg">
-                        <i class="fas fa-calendar-check w-5 mr-3"></i>
-                        <span>Bookings</span>
-                    </a>
-                    <a href="<?= base_url('/') ?>" class="flex items-center px-4 py-3 text-gray-500 hover:bg-indigo-50 hover:text-primary rounded-lg">
-                        <i class="fas fa-users w-5 mr-3"></i>
-                        <span>View Site</span>
-                    </a>
-                </div>
+            <nav class="mt-6 px-4 space-y-2">
+                <?php $uri_path = service('request')->uri->getPath(); ?>
+                <a href="<?= base_url('admin/dashboard') ?>" class="flex items-center px-4 py-3 rounded-lg <?= str_contains($uri_path, 'admin/dashboard') ? 'bg-indigo-50 text-indigo-600 font-semibold' : 'text-gray-500 hover:bg-indigo-50 hover:text-indigo-600' ?>">
+                    <i class="fas fa-tachometer-alt w-5 mr-3"></i><span>Dashboard</span>
+                </a>
+                <a href="<?= base_url('admin/bookings') ?>" class="flex items-center px-4 py-3 rounded-lg <?= str_contains($uri_path, 'admin/bookings') ? 'bg-indigo-50 text-indigo-600 font-semibold' : 'text-gray-500 hover:bg-indigo-50 hover:text-indigo-600' ?>">
+                    <i class="fas fa-calendar-check w-5 mr-3"></i><span>Bookings</span>
+                </a>                <a href="<?= base_url('/') ?>" class="flex items-center px-4 py-3 text-gray-500 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg">
+                    <i class="fas fa-external-link-alt w-5 mr-3"></i><span>View Site</span>
+                </a>
             </nav>
             <div class="absolute bottom-0 w-full px-4 py-3 border-t">
-                <a href="<?= base_url('logout') ?>" class="flex items-center text-gray-500 hover:text-primary">
-                    <i class="fas fa-sign-out-alt w-5 mr-3"></i>
-                    <span>Logout</span>
-                </a>            </div>
-        </div>
+                <a href="<?= base_url('logout') ?>" class="flex items-center px-4 py-3 text-gray-500 hover:bg-red-50 hover:text-red-600 rounded-lg">
+                    <i class="fas fa-sign-out-alt w-5 mr-3"></i><span>Logout</span>
+                </a>
+            </div>
+        </aside>
 
-        <!-- Main Content -->
-        <div class="flex-1 md:ml-64 transition-margin duration-300 ease-in-out">
-            <!-- Top Navigation Bar -->
-            <div class="bg-white shadow-md sticky top-0 z-30">
+        <div class="flex-1 md:ml-64">
+            <header class="bg-white shadow-md sticky top-0 z-30">
                 <div class="flex items-center justify-between h-16 px-4 md:px-8">
-                    <div class="flex items-center">
-                        <button class="mr-4 md:hidden focus:outline-none" id="openSidebar">
-                            <i class="fas fa-bars text-gray-600 text-xl"></i>
-                        </button>
-                        <h2 class="text-xl font-semibold text-gray-800"><?= $title ?? 'Admin Dashboard' ?></h2>
-                    </div>
-                    <div class="flex items-center">
-                        <span class="hidden md:inline text-gray-600 mr-4">Welcome, <?= session()->get('username') ?></span>
-                        <div class="relative group">
-                            <button class="md:hidden focus:outline-none">
-                                <i class="fas fa-user-circle text-gray-600 text-xl"></i>
-                            </button>
-                            <div class="md:hidden absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-lg hidden group-focus-within:block">
-                                <div class="px-4 py-2 text-sm text-gray-700">Welcome, <?= session()->get('username') ?></div>
-                                <a href="<?= base_url('logout') ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
-                            </div>
-                        </div>
-                    </div>
+                    <button class="mr-4 md:hidden focus:outline-none" id="openSidebarBtn"><i class="fas fa-bars text-gray-600 text-xl"></i></button>
+                    <h2 class="text-xl font-semibold text-gray-800"><?= $title ?? 'Admin Dashboard' ?></h2>
+                    <span class="text-gray-600">Welcome, <?= esc(session()->get('username')) ?></span>
                 </div>
-            </div>
-
-            <!-- Page Content -->
-            <div class="p-8">
-                <?= $content ?? '' ?>
-            </div>
+            </header>
+            <main class="p-8">
+                <?= $this->renderSection('content') ?>
+            </main>
         </div>
-    </div>    <script>
-        // Mobile menu toggle
+    </div>
+    <script>
         const sidebar = document.querySelector('.sidebar');
-        const overlay = document.getElementById('sidebarOverlay');
-
-        document.getElementById('openSidebar')?.addEventListener('click', () => {
-            sidebar.classList.remove('-translate-x-full');
-            overlay.classList.remove('hidden');
-            document.body.classList.add('overflow-hidden');
-        });
-
-        function closeSidebar() {
-            sidebar.classList.add('-translate-x-full');
-            overlay.classList.add('hidden');
-            document.body.classList.remove('overflow-hidden');
-        }
-
-        document.getElementById('closeSidebar')?.addEventListener('click', closeSidebar);
-        overlay?.addEventListener('click', closeSidebar);
-
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            if (window.innerWidth >= 768) { // md breakpoint
-                sidebar.classList.remove('-translate-x-full');
-                overlay.classList.add('hidden');
-                document.body.classList.remove('overflow-hidden');
-            } else {
-                sidebar.classList.add('-translate-x-full');
-            }
-        });
+        const openBtn = document.getElementById('openSidebarBtn');
+        const closeBtn = document.getElementById('closeSidebarBtn');
+        openBtn?.addEventListener('click', () => sidebar.classList.remove('-translate-x-full'));
+        closeBtn?.addEventListener('click', () => sidebar.classList.add('-translate-x-full'));
     </script>
-
-    <?= $scripts ?? '' ?>
+    <?= $this->renderSection('scripts') ?>
 </body>
 </html>
