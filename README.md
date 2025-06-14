@@ -1,250 +1,160 @@
-# MadingKu - Digital Bulletin Board Application
+# BookKu - Aplikasi Katalog dan Booking Buku
 
-MadingKu adalah aplikasi papan pengumuman digital yang dibangun menggunakan CodeIgniter 4. Aplikasi ini memungkinkan pengguna untuk mengelola dan berbagi artikel dengan tampilan yang modern dan responsif.
+<p align="center">
+  <img src="https://img.shields.io/badge/CodeIgniter-4.5.2-orange.svg" alt="Codeigniter Version">
+  <img src="https://img.shields.io/badge/PHP-8.0%2B-blue.svg" alt="PHP Version">
+  <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
+</p>
+
+**BookKu** adalah aplikasi web yang berfungsi sebagai sistem manajemen katalog dan pemesanan (booking) buku. Aplikasi ini dirancang untuk memudahkan pengguna dalam menjelajahi koleksi buku yang tersedia dan melakukan pemesanan untuk dipinjam. Di sisi lain, admin memiliki dasbor khusus untuk mengelola seluruh data buku dan memvalidasi setiap pemesanan yang masuk.
+
+<br>
+
+<br>
+
+## Daftar Isi
+
+- [Fitur](#fitur)
+- [Teknologi yang Digunakan](#teknologi-yang-digunakan)
+- [Panduan Instalasi](#panduan-instalasi)
+  - [Prasyarat](#prasyarat)
+  - [Langkah-langkah Instalasi](#langkah-langkah-instalasi)
+- [Cara Penggunaan](#cara-penggunaan)
+  - [Akses Admin](#akses-admin)
+- [Struktur Proyek](#struktur-proyek)
+- [Catatan Keamanan](#catatan-keamanan)
+- [Roadmap](#roadmap)
+- [Kontak](#kontak)
 
 ## Fitur
 
-- 🔐 Sistem Autentikasi User
-- 📝 Manajemen Artikel (CRUD)
-- 🖼️ Upload dan Preview Gambar
-- 🔍 Pencarian Artikel
-- 📱 Tampilan Responsif
-- ⚡ Performa Optimal
+Aplikasi ini memiliki dua peran utama: Pengguna Publik dan Admin.
+
+#### Fitur Publik
+- **Katalog Buku**: Menampilkan daftar buku terbaru di halaman utama.
+- **Pencarian Buku**: Memungkinkan pengguna mencari buku berdasarkan kata kunci.
+- **Halaman Detail**: Menyajikan informasi lengkap setiap buku, termasuk sinopsis, genre, dan status ketersediaan.
+- **Formulir Booking**: Pengguna dapat memesan buku dengan mengisi nama dan nomor telepon.
+- **Informasi Booking**: Halaman untuk melihat semua status pemesanan (pending, approved, denied) beserta batas waktu pengambilan.
+- **Halaman Kontak**: Menampilkan informasi kontak dan lokasi.
+
+#### Fitur Admin
+- **Login Aman**: Halaman login yang dilindungi dengan mekanisme hashing password.
+- **Dasbor Manajemen**: Antarmuka terpusat untuk mengelola data.
+- **CRUD Buku**: Admin dapat menambah, mengubah, dan menghapus data buku dalam katalog.
+- **Upload Gambar Sampul**: Fitur untuk mengunggah gambar sampul buku dengan validasi ukuran dan tipe file.
+- **Manajemen Booking**: Admin dapat melihat semua pesanan yang masuk, mengubah statusnya (menyetujui atau menolak), dan menghapus pesanan.
 
 ## Teknologi yang Digunakan
 
-- PHP 8.0+
-- CodeIgniter 4
-- MySQL Database
-- TailwindCSS
-- Font Awesome Icons
+Proyek ini dibangun menggunakan teknologi modern berikut:
+- **Framework**: [CodeIgniter 4.5.2](https://codeigniter.com/)
+- **Bahasa Pemrograman**: PHP 8.0+
+- **Database**: MySQL / MariaDB
+- **Frontend**: [TailwindCSS](https://tailwindcss.com/) & [Font Awesome](https://fontawesome.com/)
+- **Manajemen Dependensi**: [Composer](https://getcomposer.org/)
 
-## Instalasi
+## Panduan Instalasi
 
-1. Clone repositori ini:
-```bash
-git clone https://github.com/yourusername/madingku.git
-cd madingku
+Ikuti langkah-langkah berikut untuk menjalankan proyek ini di lingkungan lokal Anda.
+
+### Prasyarat
+
+Pastikan perangkat Anda telah terinstal:
+- PHP >= 8.0
+- Composer
+- Server Database (misalnya XAMPP, Laragon, atau WAMP untuk MySQL/MariaDB)
+
+### Langkah-langkah Instalasi
+
+1.  **Clone Repository**
+    ```bash
+    git clone [https://github.com/ramadityaeka/BookKu.git](https://github.com/ramadityaeka/BookKu.git)
+    cd BookKu
+    ```
+
+2.  **Install Dependensi PHP**
+    Jalankan perintah berikut untuk mengunduh semua dependensi yang dibutuhkan oleh CodeIgniter.
+    ```bash
+    composer install
+    ```
+
+3.  **Konfigurasi Environment**
+    Salin file `env` menjadi `.env`. File `.env` akan digunakan untuk menyimpan konfigurasi spesifik lingkungan Anda.
+    ```bash
+    copy env .env
+    ```
+    Buka file `.env` dan sesuaikan konfigurasi berikut:
+    ```dotenv
+    # Atur base URL aplikasi
+    app.baseURL = 'http://localhost:8080'
+
+    # Konfigurasi database
+    database.default.hostname = localhost
+    database.default.database = bukuku_db
+    database.default.username = root
+    database.default.password = 
+    database.default.DBDriver = MySQLi
+    ```
+    *Catatan: Ganti `bukuku_db`, `root`, dan password sesuai dengan konfigurasi database Anda.*
+
+4.  **Setup Database**
+    - Buat sebuah database baru di server database Anda dengan nama yang sesuai dengan yang Anda atur di file `.env` (contoh: `bukuku_db`).
+    - Impor skema dan data awal dari file `bukuku_db.sql` ke dalam database yang baru Anda buat.
+      ```sql
+      -- Anda bisa menggunakan tool seperti phpMyAdmin atau command line
+      mysql -u username -p bukuku_db < bukuku_db.sql
+      ```
+
+5.  **Jalankan Aplikasi**
+    Gunakan perintah `spark` dari CodeIgniter untuk menjalankan server pengembangan lokal.
+    ```bash
+    php spark serve
+    ```
+    Aplikasi sekarang dapat diakses melalui URL yang Anda atur di `.env` (misal: `http://localhost:8080`).
+
+## Cara Penggunaan
+
+Setelah instalasi berhasil, Anda bisa langsung mengakses aplikasi melalui browser. Halaman utama akan menampilkan katalog buku. Anda dapat menekan gambar sampul atau judul untuk melihat detail dan melakukan booking.
+
+### Akses Admin
+- Untuk masuk ke dasbor admin, kunjungi rute `/login`.
+- Gunakan kredensial default yang telah dibuat oleh Seeder:
+  - **Username:** `admin`
+  - **Password:** `password123`
+- Setelah login, Anda akan diarahkan ke dasbor admin untuk mengelola buku dan pesanan.
+
+## Struktur Proyek
+
+Proyek ini mengikuti struktur direktori standar CodeIgniter 4 untuk memastikan pemisahan tugas yang jelas.
+```
+/app
+|-- /Controllers   # Logika bisnis dan alur aplikasi
+|   |-- /Admin     # Controller khusus admin
+|-- /Models        # Interaksi dengan database
+|-- /Views         # File presentasi (HTML)
+|   |-- /admin     # Tampilan khusus dasbor admin
+|   |-- /template  # Layout template
+|-- /Database      # Migrations dan Seeder
+|-- /Filters       # Filter middleware (contoh: AuthFilter)
+/public            # Document root, aset publik (CSS, JS)
+/writable          # Direktori untuk file cache, log, dan upload
 ```
 
-2. Install dependensi menggunakan Composer:
-```bash
-composer install
-```
+## Catatan Keamanan
+- **Password Hashing**: Aplikasi ini menggunakan `password_hash()` dan `password_verify()` untuk mengamankan kredensial pengguna, yang merupakan praktik standar industri.
+- **Proteksi Rute Admin**: Semua rute di bawah `/admin` dilindungi oleh `AuthFilter` untuk memastikan hanya pengguna yang sudah login yang dapat mengaksesnya.
+- **Proteksi CSRF**: Fitur proteksi CSRF **belum diaktifkan** secara global. Untuk meningkatkan keamanan, disarankan untuk mengaktifkannya di file `app/Config/Filters.php` dengan menghapus komentar pada baris `'csrf'` di dalam array `$globals`.
 
-3. Salin file `env` menjadi `.env`:
-```bash
-copy env .env
-```
-
-4. Konfigurasi database di file `.env`:
-```env
-database.default.hostname = localhost
-database.default.database = emadding_db
-database.default.username = root
-database.default.password = 
-database.default.DBDriver = MySQLi
-```
-
-5. Import database:
-```bash
-mysql -u root -p emadding_db < emadding_db.sql
-```
-
-6. Jalankan migrasi database (opsional jika sudah import SQL):
-```bash
-php spark migrate
-```
-
-7. Jalankan seeder untuk membuat akun admin:
-```bash
-php spark db:seed AdminSeeder
-```
-
-## Menjalankan Aplikasi
-
-1. Pastikan XAMPP (Apache dan MySQL) sudah berjalan
-
-2. Buka browser dan akses:
-```
-http://localhost/emading/public
-```
-
-## Akun Default
-
-- Admin:
-  - Username: admin
-  - Password: admin123
-- User Demo:
-  - Username: rama
-  - Password: rama123
-
-## Struktur Folder
-
-```
-app/
-├── Controllers/         # Controller aplikasi
-│   ├── BaseController.php
-│   └── Home.php        # Controller utama
-├── Models/
-│   └── Jwp_model.php   # Model untuk manajemen artikel
-├── Views/              # Template dan layout
-│   ├── admin/         # Views untuk admin dashboard
-│   ├── template/      # Layout template
-│   ├── article.php    # Tampilan detail artikel
-│   ├── index.php      # Halaman utama
-│   ├── login.php      # Halaman login
-│   └── search_results.php  # Hasil pencarian
-└── Database/
-    └── Seeds/         # Database seeders
-        └── AdminSeeder.php # Seeder untuk akun admin
-
-public/                 # Folder publik
-writable/
-├── uploads/           # Folder untuk upload gambar
-└── logs/             # Log aplikasi
-```
-
-## Panduan Penggunaan
-
-1. Login ke Dashboard Admin:
-   - Akses `http://localhost/emading/public/login`
-   - Masukkan kredensial admin
-
-2. Mengelola Artikel:
-   - Klik "Add New Article" untuk membuat artikel baru
-   - Upload gambar (format: JPG, JPEG, PNG, max: 2MB)
-   - Isi judul dan konten artikel
-   - Klik Save untuk menyimpan
-
-3. Pencarian Artikel:
-   - Gunakan kotak pencarian di halaman utama
-   - Masukkan kata kunci yang relevan
-   - Hasil akan ditampilkan dengan highlight
-
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
-
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
-
-## Persyaratan Sistem
-
-1. Software yang Diperlukan:
-   - XAMPP 8.0 atau lebih tinggi
-   - Composer
-   - Git (opsional)
-
-2. PHP Extension yang Harus Aktif:
-   - intl
-   - mbstring
-   - json
-   - mysqlnd
-   - curl
-
-3. Konfigurasi PHP:
-   - upload_max_filesize = 2M
-   - post_max_size = 8M
-   - memory_limit = 256M
-
-## Keamanan
-
-1. File Sensitif:
-   - Semua file konfigurasi berada di luar folder public
-   - Gambar upload disimpan di folder writable
-   - Validasi tipe file dan ukuran saat upload
-
-2. Autentikasi:
-   - Menggunakan password hashing
-   - Session management
-   - Proteksi CSRF
-
-## Menambah User/Password Baru
-
-Ada 2 cara untuk menambah user baru:
-
-### 1. Melalui Database Seeder
-
-1. Buka file `app/Database/Seeds/AdminSeeder.php`
-2. Tambahkan data user baru di array `$data`:
-```php
-$data = [
-    [
-        'username' => 'user_baru',
-        'email'    => 'user@example.com',
-        'password' => password_hash('password123', PASSWORD_DEFAULT),
-        'created_at' => date('Y-m-d H:i:s'),
-        'updated_at' => date('Y-m-d H:i:s'),
-    ]
-];
-```
-3. Jalankan seeder:
-```bash
-php spark db:seed AdminSeeder
-```
-
-### 2. Melalui Database Langsung
-
-1. Generate password hash di CLI PHP:
-```bash
-php -r "echo password_hash('password_baru', PASSWORD_DEFAULT);"
-```
-2. Copy hash yang dihasilkan
-3. Masukkan ke database melalui SQL:
-```sql
-INSERT INTO users (username, email, password, created_at, updated_at) 
-VALUES (
-    'username_baru',
-    'email@example.com',
-    'hash_yang_dihasilkan',
-    NOW(),
-    NOW()
-);
-```
-
-> ⚠️ **Penting**: 
-> - Selalu gunakan `password_hash()` untuk mengamankan password
-> - Jangan simpan password dalam bentuk plain text
-> - Minimal panjang password 8 karakter
-> - Gunakan kombinasi huruf, angka, dan karakter khusus
-
-## Struktur Navigasi
-
-```
-├── Halaman Publik
-│   ├── Beranda (/)
-│   │   ├── Daftar Artikel Terbaru
-│   │   └── Kotak Pencarian
-│   ├── Detail Artikel (/article/{id})
-│   │   ├── Gambar Artikel
-│   │   ├── Judul
-│   │   └── Konten Lengkap
-│   ├── Hasil Pencarian (/search)
-│   │   ├── Daftar Hasil
-│   │   └── Pesan Jika Tidak Ditemukan
-│   └── Login (/login)
-│       ├── Form Username
-│       └── Form Password
-│
-└── Dashboard Admin (/dashboard)
-    ├── Manajemen Artikel
-    │   ├── Daftar Artikel
-    │   │   ├── Preview Gambar
-    │   │   ├── Judul
-    │   │   └── Aksi (Edit/Hapus)
-    │   └── Tambah Artikel Baru
-    │       ├── Form Judul
-    │       ├── Form Konten
-    │       └── Upload Gambar
-    └── Menu Navigasi
-        ├── Dashboard
-        ├── Lihat Situs
-        └── Logout
-```
+## Roadmap
+- [ ] Implementasi pengujian unit (Unit Testing) untuk fungsionalitas inti.
+- [ ] Menambahkan fitur paginasi pada halaman katalog.
+- [ ] Mengembangkan sistem manajemen pengguna yang lebih lengkap (misal: pendaftaran pengguna publik).
+- [ ] Standardisasi penamaan di seluruh proyek (database, nama proyek di README).
+- [ ] Menambahkan kategori dan rak buku yang dinamis (dikelola dari admin).
 
 ## Kontak
 
-Untuk pertanyaan dan dukungan, silakan hubungi:
-- Email: rama@gmail.com
-- GitHub: @ramaditya
+Ramaditya Eka Putra - [@ramadityaeka_](https://www.instagram.com/ramadityaeka_/) - ramadityaeka3@gmail.com
+
+Project Link: [https://github.com/ramadityaeka/BookKu](https://github.com/ramadityaeka/BookKu)
