@@ -146,15 +146,3 @@ Proyek ini mengikuti struktur direktori standar CodeIgniter 4 untuk memastikan p
 - **Proteksi Rute Admin**: Semua rute di bawah `/admin` dilindungi oleh `AuthFilter` untuk memastikan hanya pengguna yang sudah login yang dapat mengaksesnya.
 - **Proteksi CSRF**: Fitur proteksi CSRF **belum diaktifkan** secara global. Untuk meningkatkan keamanan, disarankan untuk mengaktifkannya di file `app/Config/Filters.php` dengan menghapus komentar pada baris `'csrf'` di dalam array `$globals`.
 
-## Roadmap
-- [ ] Implementasi pengujian unit (Unit Testing) untuk fungsionalitas inti.
-- [ ] Menambahkan fitur paginasi pada halaman katalog.
-- [ ] Mengembangkan sistem manajemen pengguna yang lebih lengkap (misal: pendaftaran pengguna publik).
-- [ ] Standardisasi penamaan di seluruh proyek (database, nama proyek di README).
-- [ ] Menambahkan kategori dan rak buku yang dinamis (dikelola dari admin).
-
-## Kontak
-
-Ramaditya Eka Putra - [@ramadityaeka_](https://www.instagram.com/ramadityaeka_/) - ramadityaeka3@gmail.com
-
-Project Link: [https://github.com/ramadityaeka/BookKu](https://github.com/ramadityaeka/BookKu)
