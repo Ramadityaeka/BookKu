@@ -49,6 +49,7 @@
                             <i class="fas fa-edit mr-1"></i> Edit
                         </button>
                         <form action="<?= base_url('admin/articles/delete/' . $article['id']) ?>" method="post" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus buku ini?');">
+                            <?= csrf_field() ?>
                             <button type="submit" class="px-3 py-1 bg-red-100 text-red-600 rounded text-sm hover:bg-red-200">
                                 <i class="fas fa-trash mr-1"></i> Delete
                             </button>
@@ -67,7 +68,9 @@
             <h3 class="text-xl font-semibold" id="modalTitle">Tambah Buku Baru</h3>
             <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700 text-2xl leading-none">&times;</button>
         </div>
-        <div class="p-6">            <form id="articleForm" action="" method="POST" enctype="multipart/form-data" class="space-y-6">
+        <div class="p-6">            
+            <form id="articleForm" action="" method="POST" enctype="multipart/form-data" class="space-y-6">
+                <?= csrf_field() ?>
                 <input type="hidden" name="id" id="articleId">
                 
                 <!-- Basic Information Section -->

@@ -19,18 +19,28 @@
     <div class="min-h-screen flex">
         <aside class="sidebar fixed inset-y-0 left-0 bg-white w-64 shadow-lg z-50 transform -translate-x-full md:translate-x-0">
             <div class="flex items-center justify-between h-16 px-4 bg-indigo-600 text-white">
-                <h1 class="text-xl font-bold">Library Admin</h1>
+                <h1 class="text-xl font-bold">Admin Panel</h1>
                 <button class="md:hidden focus:outline-none" id="closeSidebarBtn">&times;</button>
             </div>
             <nav class="mt-6 px-4 space-y-2">
                 <?php $uri_path = service('request')->uri->getPath(); ?>
+
                 <a href="<?= base_url('admin/dashboard') ?>" class="flex items-center px-4 py-3 rounded-lg <?= str_contains($uri_path, 'admin/dashboard') ? 'bg-indigo-50 text-indigo-600 font-semibold' : 'text-gray-500 hover:bg-indigo-50 hover:text-indigo-600' ?>">
-                    <i class="fas fa-tachometer-alt w-5 mr-3"></i><span>Dashboard</span>
+                    <i class="fas fa-book w-5 mr-3"></i><span>Manajemen Buku</span>
                 </a>
+                
+                <a href="<?= base_url('admin/events') ?>" class="flex items-center px-4 py-3 rounded-lg <?= str_contains($uri_path, 'admin/events') ? 'bg-indigo-50 text-indigo-600 font-semibold' : 'text-gray-500 hover:bg-indigo-50 hover:text-indigo-600' ?>">
+                    <i class="fas fa-calendar-alt w-5 mr-3"></i><span>Manajemen Event</span>
+                </a>
+
                 <a href="<?= base_url('admin/bookings') ?>" class="flex items-center px-4 py-3 rounded-lg <?= str_contains($uri_path, 'admin/bookings') ? 'bg-indigo-50 text-indigo-600 font-semibold' : 'text-gray-500 hover:bg-indigo-50 hover:text-indigo-600' ?>">
-                    <i class="fas fa-calendar-check w-5 mr-3"></i><span>Bookings</span>
-                </a>                <a href="<?= base_url('/') ?>" class="flex items-center px-4 py-3 text-gray-500 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg">
-                    <i class="fas fa-external-link-alt w-5 mr-3"></i><span>View Site</span>
+                    <i class="fas fa-calendar-check w-5 mr-3"></i><span>Manajemen Booking</span>
+                </a>
+                
+                <hr class="my-4">
+
+                <a href="<?= base_url('/') ?>" target="_blank" class="flex items-center px-4 py-3 text-gray-500 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg">
+                    <i class="fas fa-external-link-alt w-5 mr-3"></i><span>Lihat Situs Publik</span>
                 </a>
             </nav>
             <div class="absolute bottom-0 w-full px-4 py-3 border-t">
@@ -53,12 +63,13 @@
             </main>
         </div>
     </div>
+
     <script>
         const sidebar = document.querySelector('.sidebar');
         const openBtn = document.getElementById('openSidebarBtn');
         const closeBtn = document.getElementById('closeSidebarBtn');
-        openBtn?.addEventListener('click', () => sidebar.classList.remove('-translate-x-full'));
-        closeBtn?.addEventListener('click', () => sidebar.classList.add('-translate-x-full'));
+        openBtn?.addEventListener('click', () => sidebar.classList.add('active'));
+        closeBtn?.addEventListener('click', () => sidebar.classList.remove('active'));
     </script>
     <?= $this->renderSection('scripts') ?>
 </body>

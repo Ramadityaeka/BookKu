@@ -3,99 +3,71 @@
 namespace App\Controllers;
 
 use App\Models\KatalogModel;
-use App\Models\UserModel;
-use CodeIgniter\HTTP\RedirectResponse;
-use CodeIgniter\Session\Session;
 
 class Home extends BaseController
 {
     protected $katalogModel;
-    protected $userModel;
-    protected $session;
 
     public function __construct()
     {
         $this->katalogModel = new KatalogModel();
-        $this->userModel = new UserModel();
-        $this->session = session();
     }
 
-    public function index(): string
+    public function index()
     {
+        // Data untuk view
         $data = [
-            'title' => 'Home',
-            'articles' => $this->katalogModel->getAllArticles()
+            'title' => 'Selamat Datang di BookKu', // <--- TAMBAHKAN BARIS INI
+            'articles' => $this->katalogModel->orderBy('created_at', 'DESC')->findAll(6)
         ];
-        return view('index', $data); // Asumsi header/footer di-handle oleh layout
-    }
-
-    public function login(): string
-    {
-        return view('login');
-    }
-
-    public function authenticate(): RedirectResponse
-    {
-        $username = $this->request->getPost('username');
-        $password = $this->request->getPost('password');
         
-        $user = $this->userModel->verifyLogin($username, $password);
+        return view('index', $data);
+    }
 
-        if ($user) {
-            $this->session->set([
-                'user_id'   => $user['id'],
-                'username'  => $user['username'],
-                'logged_in' => true
-            ]);
-            return redirect()->to(base_url('admin/dashboard'));
+    public function catalog()
+    {
+        $keyword = $this->request->getVar('keyword');
+        if ($keyword) {
+            $articles = $this->katalogModel->like('judul', $keyword)->orderBy('created_at', 'DESC')->findAll();
+        } else {
+            $articles = $this->katalogModel->orderBy('created_at', 'DESC')->findAll();
         }
-
-        return redirect()->back()->with('error', 'Invalid login credentials');
-    }
-
-    public function logout(): RedirectResponse
-    {
-        $this->session->destroy();
-        return redirect()->to('/');
-    }
-
-    // Fungsi dashboard dipindahkan ke Admin/DashboardController.php
-    // public function dashboard() { ... }
-
-    public function detail(int $id): string
-    {
+        
         $data = [
-            'title' => 'Book Detail',
-            'article' => $this->katalogModel->getArticle($id)
+            'title' => 'Katalog Buku', // Title untuk halaman katalog
+            'articles' => $articles
         ];
+        return view('book', $data);
+    }
+    
+    public function detail($id)
+    {
+        $data['article'] = $this->katalogModel->find($id);
 
         if (empty($data['article'])) {
-            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Book not found');
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Buku tidak ditemukan');
         }
+
+        // Menambahkan title dinamis untuk halaman detail
+        $data['title'] = $data['article']['judul']; 
 
         return view('detail', $data);
     }
-    
-    // Fungsi CRUD dipindahkan ke Admin/DashboardController.php
-    // storeArticle(), editArticle(), updateArticle(), deleteArticle()
 
+    public function kontak()
+    {
+        $data['title'] = 'Hubungi Kami'; // Title untuk halaman kontak
+        return view('kontak', $data);
+    }
+
+    // Fungsi ini mungkin masih dibutuhkan oleh dashboard admin
     public function getArticle($id)
     {
-        if (!$this->session->get('logged_in')) {
-             return $this->response->setJSON(['error' => 'Unauthorized'])->setStatusCode(401);
-        }
-
-        $article = $this->katalogModel->getArticle($id);
+        $article = $this->katalogModel->find($id);
         if ($article) {
             $article['gambar_url'] = base_url('uploads/' . $article['gambar']);
             return $this->response->setJSON($article);
         }
-        return $this->response->setJSON(['error' => 'Article not found'])->setStatusCode(404);
-    }
-
-    public function kontak(): string
-    {
-        $data = ['title' => 'Contact Us'];
-        return view('kontak', $data);
+        return $this->response->setStatusCode(404, 'Article not found');
     }
 }

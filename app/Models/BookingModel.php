@@ -12,7 +12,6 @@ class BookingModel extends Model
     protected $primaryKey = 'id';
     protected $useAutoIncrement = true;
     
-    // Pastikan semua kolom ini ada di tabel 'booking' Anda
     protected $allowedFields = [
         'user_id', 
         'buku_id', 
@@ -25,29 +24,41 @@ class BookingModel extends Model
     
     protected $useTimestamps = true;
     protected $createdField = 'tanggal_booking';
-    protected $updatedField = ''; // updatedField tidak digunakan
+    protected $updatedField = '';
 
-    public function getBookings()
+    /**
+     * FUNGSI INI UNTUK ADMIN: Mengambil semua data booking.
+     */
+    public function getAllBookings()
+    {
+        return $this->select('booking.*, katalog.judul, katalog.gambar, users.username')
+                    ->join('katalog', 'katalog.id = booking.buku_id')
+                    ->join('users', 'users.id = booking.user_id', 'left')
+                    ->orderBy('booking.tanggal_booking', 'DESC')
+                    ->findAll();
+    }
+
+    /**
+     * FUNGSI INI UNTUK USER: Mengambil data booking berdasarkan ID user yang login.
+     * Ini adalah fungsi kunci untuk solusi kita.
+     */
+    public function getBookingsByUser($userId)
     {
         return $this->select('booking.*, katalog.judul, katalog.gambar')
                     ->join('katalog', 'katalog.id = booking.buku_id')
+                    ->where('booking.user_id', $userId)
                     ->orderBy('booking.tanggal_booking', 'DESC')
                     ->findAll();
     }
 
     public function createBooking($data)
     {
-        // Atur status awal
+        // ... (fungsi createBooking tidak berubah) ...
         $data['status'] = 'pending';
-
-        // Atur waktu booking saat ini
         $now = new DateTime();
         $data['tanggal_booking'] = $now->format('Y-m-d H:i:s');
-
-        // Atur batas waktu pengambilan 24 jam dari sekarang
-        $now->add(new DateInterval('PT24H')); // PT24H = Periode Waktu 24 Jam
+        $now->add(new DateInterval('PT24H'));
         $data['batas_waktu_pengambilan'] = $now->format('Y-m-d H:i:s');
-
         return $this->insert($data);
     }
 
