@@ -90,7 +90,6 @@
                             <select name="genre" id="genre" required 
                                 class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                 <option value="">Pilih Genre</option>
-                                <option value="Novel">Novel</option>
                                 <option value="Fiksi">Fiksi</option>
                                 <option value="Non-Fiksi">Non-Fiksi</option>
                                 <option value="Misteri">Misteri</option>
@@ -250,7 +249,7 @@ function closeModal() {
 async function editArticle(id) {
     resetForm();
     try {
-        const response = await fetch(`<?= base_url('getArticle/') ?>/${id}`);
+        const response = await fetch(`<?= base_url('admin/articles/get/') ?>/${id}`); // <-- URL BARU
         if (!response.ok) throw new Error('Gagal mengambil data buku');
         
         const article = await response.json();

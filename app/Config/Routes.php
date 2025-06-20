@@ -52,6 +52,7 @@ $routes->group('admin', ['filter' => 'login'], function($routes) {
     $routes->post('articles/store', 'Admin\DashboardController::storeArticle');
     $routes->post('articles/update/(:num)', 'Admin\DashboardController::updateArticle/$1');
     $routes->post('articles/delete/(:num)', 'Admin\DashboardController::deleteArticle/$1');
+    $routes->get('articles/get/(:num)', 'Admin\DashboardController::getArticle/$1');
     $routes->get('bookings', 'Admin\BookingsController::index');
     $routes->post('bookings/status-update/(:num)', 'Admin\BookingsController::statusUpdate/$1');
     $routes->post('bookings/delete/(:num)', 'Admin\BookingsController::delete/$1');

@@ -114,4 +114,18 @@ class DashboardController extends BaseController
         $this->katalogModel->delete($id);
         return redirect()->to('admin/dashboard')->with('success', 'Buku berhasil dihapus.');
     }
+
+
+     public function getArticle($id)
+    {
+        $article = $this->katalogModel->find($id);
+        if ($article) {
+            // Tambahkan URL gambar lengkap ke dalam respons
+            $article['gambar_url'] = base_url('uploads/' . $article['gambar']);
+            return $this->response->setJSON($article);
+        }
+
+        // Jika buku tidak ditemukan, kirim status 404
+        return $this->response->setStatusCode(404, 'Article not found');
+    }
 }
