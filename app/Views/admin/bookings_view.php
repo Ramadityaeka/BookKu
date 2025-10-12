@@ -52,19 +52,21 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-semibold"><?= esc($booking['username'] ?? $booking['nama_user']) ?></td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= date('d M Y, H:i', strtotime($booking['tanggal_booking'])) ?></td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-red-600 font-medium"><?= date('d M Y, H:i', strtotime($booking['batas_waktu_pengambilan'])) ?></td>
-                        <td class="px-6 py-4 whitespace-nowrap">
+                        <td class="px-6 py-4 whitespace-nowrap text-center">
                             <form action="<?= base_url('admin/bookings/status-update/' . $booking['id']) ?>" method="POST" class="m-0">
                                 <?= csrf_field() ?>
-                                <select name="status" onchange="this.form.submit()" class="
-                                    text-xs font-semibold rounded-full border-none appearance-none p-2 pr-8 font-bold
-
-                                    <?= $booking['status'] == 'approved' ? 'bg-green-100 text-green-800' : '' ?>
-                                    <?= $booking['status'] == 'pending' ? 'bg-yellow-100 text-yellow-800' : '' ?>
-                                    <?= $booking['status'] == 'denied' ? 'bg-red-100 text-red-800' : '' ?>
-                                ">
-                                    <option value="pending" <?= $booking['status'] == 'pending' ? 'selected' : '' ?>>Pending</option>
-                                    <option value="approved" <?= $booking['status'] == 'approved' ? 'selected' : '' ?>>Approved</option>
-                                    <option value="denied" <?= $booking['status'] == 'denied' ? 'selected' : '' ?>>Denied</option>
+                                <?php
+                                    $status_classes = [
+                                        'approved' => 'bg-green-100 text-green-800',
+                                        'pending' => 'bg-yellow-100 text-yellow-800',
+                                        'denied' => 'bg-red-100 text-red-800'
+                                    ];
+                                    $current_class = $status_classes[$booking['status']] ?? 'bg-gray-100 text-gray-800';
+                                ?>
+                                <select name="status" onchange="this.form.submit()" class="px-3 py-1 text-xs font-semibold rounded-full appearance-none <?= $current_class ?>" style="text-align: center;">
+                                    <option value="pending" <?= $booking['status'] == 'pending' ? 'selected' : '' ?> class="font-bold bg-yellow-100 text-yellow-800">Pending</option>
+                                    <option value="approved" <?= $booking['status'] == 'approved' ? 'selected' : '' ?> class="font-bold bg-green-100 text-green-800">Approved</option>
+                                    <option value="denied" <?= $booking['status'] == 'denied' ? 'selected' : '' ?> class="font-bold bg-red-100 text-red-800">Denied</option>
                                 </select>
                             </form>
                         </td>

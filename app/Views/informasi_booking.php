@@ -43,9 +43,9 @@
                                     <td class="px-6 py-4 text-center">
                                         <?php
                                             $status_color = 'bg-gray-100 text-gray-800'; // Default
-                                            if ($booking['status'] == 'approved') $status_color = 'bg-green-100 text-green-800';
-                                            if ($booking['status'] == 'pending') $status_color = 'bg-yellow-100 text-yellow-800';
-                                            if ($booking['status'] == 'denied') $status_color = 'bg-red-100 text-red-800';
+                                            if ($booking['status'] == 'approved') $status_color = 'font-bold bg-green-100 text-green-800';
+                                            if ($booking['status'] == 'pending') $status_color = 'font-bold bg-yellow-100 text-yellow-800';
+                                            if ($booking['status'] == 'denied') $status_color = 'font-bold bg-red-100 text-red-800';
                                         ?>
                                         <span class="px-3 py-1 text-xs font-semibold rounded-full <?= $status_color ?>">
                                             <?= ucfirst($booking['status']) ?>
