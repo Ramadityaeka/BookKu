@@ -28,10 +28,10 @@ class Database extends Config
      */
     public array $default = [
         'DSN'          => '',
-        'hostname'     => 'localhost',
-        'username'     => 'root',  // Default XAMPP username
-        'password'     => '',      // Default XAMPP password is empty
-        'database'     => 'emadding_db',
+        'hostname'     => getenv('MYSQL_HOST') ?: 'localhost',
+        'username'     => getenv('MYSQL_USER') ?: 'root',
+        'password'     => getenv('MYSQL_PASSWORD') ?: '',
+        'database'     => getenv('MYSQL_DATABASE') ?: 'emadding_db',
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
         'pConnect'     => false,
@@ -43,7 +43,7 @@ class Database extends Config
         'compress'     => false,
         'strictOn'     => false,
         'failover'     => [],
-        'port'         => 3306,
+        'port'         => getenv('MYSQL_PORT') ?: 3306,
         'numberNative' => false,
     ];
 
