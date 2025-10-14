@@ -19,6 +19,9 @@ $routes->get('uploads/(:any)', function($filename) {
 });
 
 
+// Health check route
+$routes->get('/health', 'HealthController::index');
+
 // Controller utama untuk halaman publik
 $routes->get('/', 'Home::index');
 $routes->get('catalog', 'Home::catalog');
