@@ -1,16 +1,9 @@
-[build][build]
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
 
-builder = "DOCKERFILE"builder = "DOCKERFILE"
-
-dockerfilePath = "Dockerfile"dockerfilePath = "Dockerfile"
-
-
-
-[deploy][deploy]
-
-startCommand = "php spark serve"startCommand = "apache2-foreground"
-
-healthcheckPath = "/"healthcheckPath = "/"
-
-restartPolicyType = "ON_FAILURE"restartPolicyType = "ON_FAILURE"
+[deploy]
+startCommand = "apache2-foreground"
+healthcheckPath = "/"
+restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 3
