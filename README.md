@@ -45,6 +45,80 @@ Proyek ini dibangun menggunakan teknologi modern berikut:
 - **Frontend**: [TailwindCSS](https://tailwindcss.com/) & [Font Awesome](https://fontawesome.com/)
 - **Manajemen Dependensi**: [Composer](https://getcomposer.org/)
 
+### Detail Konfigurasi Sistem
+
+#### 1. Konfigurasi Database
+- Driver: MySQLi
+- Host: localhost
+- Port: 3306
+- Database: emadding_db
+- Charset: utf8
+- DBCollat: utf8_general_ci
+
+#### 2. Konfigurasi Aplikasi
+- Base URL: http://localhost:8080/
+- Charset: UTF-8
+- Default Locale: en
+- Timezone: UTC
+- Index Page: index.php
+
+#### 3. Sistem Keamanan
+- Login Filter System
+- Admin Filter System
+- Session Management
+- Password Hashing
+- CSRF Protection
+- XSS Filtering
+- SQL Injection Prevention
+- Input Validation
+- Output Escaping
+
+#### 4. Arsitektur Sistem
+##### Models:
+- BookingModel (Manajemen pemesanan)
+- EventModel (Manajemen event)
+- KatalogModel (Manajemen katalog buku)
+- UserModel (Manajemen pengguna)
+
+##### Controllers:
+- AuthController (Autentikasi)
+- BookingController (Pemesanan)
+- EventController (Event)
+- Admin Controllers:
+  - BookingsController
+  - DashboardController
+  - EventController
+
+##### Views:
+- Template sistem
+- Halaman admin
+- Halaman publik
+- Komponen terpisah (header, footer)
+
+#### 5. Fitur Development
+- Debug Toolbar
+- Migration System
+- Seeder System
+- Environment-based Configuration
+- Error Handling (CLI & HTML)
+- Custom Libraries Support
+- Third-party Integration Support
+
+#### 6. File Management
+- Upload System untuk gambar
+- Validasi file
+- Direktori terstruktur
+- Public assets management
+
+#### 7. Additional Features
+- Multi-language Support
+- Cache Management
+- Session Handling
+- Form Validation
+- URL Routing
+- RESTful API Ready
+- Template inheritance system
+
 ## Panduan Instalasi
 
 Ikuti langkah-langkah berikut untuk menjalankan proyek ini di lingkungan lokal Anda.
@@ -54,6 +128,6 @@ Ikuti langkah-langkah berikut untuk menjalankan proyek ini di lingkungan lokal A
 Pastikan perangkat Anda telah terinstal:
 - PHP >= 8.0
 - Composer
-- Server Database (misalnya XAMPP, Laragon, atau WAMP untuk MySQL/MariaDB)
+- Server Database (misalnya XAMPP,MySQL)
 
 
