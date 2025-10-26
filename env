@@ -1,9 +1,9 @@
 CI_ENVIRONMENT = production
-app.baseURL = 'https://${RAILWAY_STATIC_URL}'
 
-database.default.hostname = ${MYSQL_HOST}
-database.default.database = ${MYSQL_DATABASE}
-database.default.username = ${MYSQL_USER}
-database.default.password = ${MYSQL_PASSWORD}
+# Database
+database.default.hostname = localhost
+database.default.database = railway
+database.default.username = root
+database.default.password = 
 database.default.DBDriver = MySQLi
-database.default.port = ${MYSQL_PORT}
+database.default.port = 3306
