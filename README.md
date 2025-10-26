@@ -1,133 +1,100 @@
-# BookKu - Aplikasi Katalog dan Booking Buku
+# BookKu 📚
 
+Sistem manajemen buku berbasis PHP & CodeIgniter.
 
-**BookKu** adalah aplikasi web yang berfungsi sebagai sistem manajemen katalog dan pemesanan (booking) buku. Aplikasi ini dirancang untuk memudahkan pengguna dalam menjelajahi koleksi buku yang tersedia dan melakukan pemesanan untuk dipinjam. Di sisi lain, admin memiliki dasbor khusus untuk mengelola seluruh data buku dan memvalidasi setiap pemesanan yang masuk.
+## 🌐 Live Demo
+**Deploy to Railway:** [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template?template=https://github.com/Ramadityaeka/BookKu)
 
-## Daftar Isi
+## 🚀 Deploy ke Railway
 
-- [Fitur](#fitur)
-- [Teknologi yang Digunakan](#teknologi-yang-digunakan)
-- [Panduan Instalasi](#panduan-instalasi)
-  - [Prasyarat](#prasyarat)
-  - [Langkah-langkah Instalasi](#langkah-langkah-instalasi)
-- [Cara Penggunaan](#cara-penggunaan)
-  - [Akses Admin](#akses-admin)
-- [Struktur Proyek](#struktur-proyek)
-- [Catatan Keamanan](#catatan-keamanan)
-- [Roadmap](#roadmap)
-- [Kontak](#kontak)
+### Quick Steps:
+1. Fork/Clone repo ini
+2. Daftar di [Railway.app](https://railway.app)
+3. Klik "Deploy from GitHub repo"
+4. Pilih `Ramadityaeka/BookKu`
+5. Tambah MySQL database (+ New → Database → MySQL)
+6. Connect database ke app (Variables → Add Reference)
+7. Generate domain (Settings → Networking → Generate Domain)
 
-## Fitur
+### File yang diperlukan (sudah ada):
+- ✅ `Dockerfile` - Container configuration
+- ✅ `railway.json` - Railway deployment settings
+- ✅ `config.railway.php` - Database config untuk production
 
-Aplikasi ini memiliki dua peran utama: Pengguna Publik dan Admin.
+## 💻 Install Lokal
 
-#### Fitur Publik
-- **Katalog Buku**: Menampilkan daftar buku terbaru di halaman utama.
-- **Pencarian Buku**: Memungkinkan pengguna mencari buku berdasarkan kata kunci.
-- **Halaman Detail**: Menyajikan informasi lengkap setiap buku, termasuk sinopsis, genre, dan status ketersediaan.
-- **Formulir Booking**: Pengguna dapat memesan buku dengan mengisi nama dan nomor telepon.
-- **Informasi Booking**: Halaman untuk melihat semua status pemesanan (pending, approved, denied) beserta batas waktu pengambilan.
-- **Halaman Kontak**: Menampilkan informasi kontak dan lokasi.
+```bash
+# Clone repository
+git clone https://github.com/Ramadityaeka/BookKu.git
+cd BookKu
 
-#### Fitur Admin
-- **Login Aman**: Halaman login yang dilindungi dengan mekanisme hashing password.
-- **Dasbor Manajemen**: Antarmuka terpusat untuk mengelola data.
-- **CRUD Buku**: Admin dapat menambah, mengubah, dan menghapus data buku dalam katalog.
-- **Upload Gambar Sampul**: Fitur untuk mengunggah gambar sampul buku dengan validasi ukuran dan tipe file.
-- **Manajemen Booking**: Admin dapat melihat semua pesanan yang masuk, mengubah statusnya (menyetujui atau menolak), dan menghapus pesanan.
+# Setup database
+mysql -u root -p
+CREATE DATABASE bookku;
+USE bookku;
+SOURCE database.sql;
 
-## Teknologi yang Digunakan
+# Jalankan dengan PHP built-in server
+php -S localhost:8000
 
-Proyek ini dibangun menggunakan teknologi modern berikut:
-- **Framework**: [CodeIgniter 4.5.2](https://codeigniter.com/)
-- **Bahasa Pemrograman**: PHP 8.0+
-- **Database**: MySQL 
-- **Frontend**: [TailwindCSS](https://tailwindcss.com/) & [Font Awesome](https://fontawesome.com/)
-- **Manajemen Dependensi**: [Composer](https://getcomposer.org/)
+# Atau dengan Apache/Nginx
+# Arahkan document root ke folder BookKu
+```
 
-### Detail Konfigurasi Sistem
+## 📋 Requirements
+- PHP 7.4+ (Rekomendasi: PHP 8.1)
+- MySQL 5.7+ / MariaDB 10.3+
+- Apache dengan mod_rewrite / Nginx
+- Composer (opsional)
 
-#### 1. Konfigurasi Database
-- Driver: MySQLi
-- Host: localhost
-- Port: 3306
-- Database: emadding_db
-- Charset: utf8
-- DBCollat: utf8_general_ci
+## 📂 Struktur Project
+```
+BookKu/
+├── app/                 # CodeIgniter application
+├── public/              # Public assets
+├── writable/            # Cache, logs, uploads
+├── Dockerfile           # Docker configuration (Railway)
+├── railway.json         # Railway deployment config
+└── README.md
+```
 
-#### 2. Konfigurasi Aplikasi
-- Base URL: http://localhost:8080/
-- Charset: UTF-8
-- Default Locale: en
-- Timezone: UTC
-- Index Page: index.php
+## 🔧 Configuration
 
-#### 3. Sistem Keamanan
-- Login Filter System
-- Admin Filter System
-- Session Management
-- Password Hashing
-- CSRF Protection
-- XSS Filtering
-- SQL Injection Prevention
-- Input Validation
-- Output Escaping
+### Local Development
+Edit file konfigurasi database di `app/Config/Database.php`
 
-#### 4. Arsitektur Sistem
-##### Models:
-- BookingModel (Manajemen pemesanan)
-- EventModel (Manajemen event)
-- KatalogModel (Manajemen katalog buku)
-- UserModel (Manajemen pengguna)
+### Production (Railway)
+Gunakan environment variables yang auto-inject oleh Railway:
+- `MYSQLHOST`
+- `MYSQLPORT`
+- `MYSQLDATABASE`
+- `MYSQLUSER`
+- `MYSQLPASSWORD`
 
-##### Controllers:
-- AuthController (Autentikasi)
-- BookingController (Pemesanan)
-- EventController (Event)
-- Admin Controllers:
-  - BookingsController
-  - DashboardController
-  - EventController
+## 🐛 Troubleshooting
 
-##### Views:
-- Template sistem
-- Halaman admin
-- Halaman publik
-- Komponen terpisah (header, footer)
+### Railway deployment issues:
+1. **Build failed** → Check Dockerfile syntax
+2. **Database connection error** → Verify MySQL service connected
+3. **500 error** → Check logs di Railway dashboard
 
-#### 5. Fitur Development
-- Debug Toolbar
-- Migration System
-- Seeder System
-- Environment-based Configuration
-- Error Handling (CLI & HTML)
-- Custom Libraries Support
-- Third-party Integration Support
+### Local issues:
+1. **mod_rewrite not enabled** → `a2enmod rewrite && service apache2 restart`
+2. **Permission denied** → `chmod -R 755 writable/`
 
-#### 6. File Management
-- Upload System untuk gambar
-- Validasi file
-- Direktori terstruktur
-- Public assets management
+## 📝 Features
+- ✅ Manajemen buku (CRUD)
+- ✅ Kategori buku
+- ✅ Pencarian & filter
+- ✅ User authentication
+- ✅ Responsive design
 
-#### 7. Additional Features
-- Multi-language Support
-- Cache Management
-- Session Handling
-- Form Validation
-- URL Routing
-- RESTful API Ready
-- Template inheritance system
+## 👤 Author
+[@Ramadityaeka](https://github.com/Ramadityaeka)
 
-## Panduan Instalasi
+## 📄 License
+MIT License - bebas digunakan untuk pembelajaran
 
-Ikuti langkah-langkah berikut untuk menjalankan proyek ini di lingkungan lokal Anda.
+---
 
-### Prasyarat
-
-Pastikan perangkat Anda telah terinstal:
-- PHP >= 8.0
-- Composer
-- Server Database (misalnya XAMPP,MySQL)
-
-
+**Need help?** Open an issue atau hubungi via GitHub
