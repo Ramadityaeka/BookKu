@@ -26,27 +26,25 @@ class Database extends Config
      *
      * @var array<string, mixed>
      */
-    public array $default = [
-        'DSN'          => '',
-        'hostname'     => getenv('MYSQL_HOST') ?: 'localhost',
-        'username'     => getenv('MYSQL_USER') ?: 'root',
-        'password'     => getenv('MYSQL_PASSWORD') ?: '',
-        'database'     => getenv('MYSQL_DATABASE') ?: 'emadding_db',
-        'DBDriver'     => 'MySQLi',
-        'DBPrefix'     => '',
-        'pConnect'     => false,
-        'DBDebug'      => true,
-        'charset'      => 'utf8',
-        'DBCollat'     => 'utf8_general_ci',
-        'swapPre'      => '',
-        'encrypt'      => false,
-        'compress'     => false,
-        'strictOn'     => false,
-        'failover'     => [],
-        'port'         => getenv('MYSQL_PORT') ?: 3306,
-        'numberNative' => false,
-    ];
-
+   public array $default = [
+    'DSN'          => '',
+    'hostname'     => getenv('MYSQLHOST') ?: 'localhost',
+    'username'     => getenv('MYSQLUSER') ?: 'root',
+    'password'     => getenv('MYSQLPASSWORD') ?: '',
+    'database'     => getenv('MYSQLDATABASE') ?: 'railway',
+    'DBDriver'     => 'MySQLi',
+    'DBPrefix'     => '',
+    'pConnect'     => false,
+    'DBDebug'      => true,
+    'charset'      => 'utf8mb4',
+    'DBCollat'     => 'utf8mb4_general_ci',
+    'swapPre'      => '',
+    'encrypt'      => false,
+    'compress'     => false,
+    'strictOn'     => false,
+    'failover'     => [],
+    'port'         => getenv('MYSQLPORT') ?: 3306,
+];
     /**
      * This database connection is used when
      * running PHPUnit database tests.
