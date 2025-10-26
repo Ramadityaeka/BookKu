@@ -30,5 +30,13 @@ RUN chown -R www-data:www-data /var/www/html && \
 # Expose port
 EXPOSE 80
 
-# Start Apache
-CMD ["apache2-foreground"]
+# Create startup script
+RUN echo '#!/bin/bash\n\
+echo "=== Starting Apache ==="\n\
+echo "DocumentRoot: $(grep DocumentRoot /etc/apache2/sites-available/000-default.conf)"\n\
+echo "Checking healthz.php..."\n\
+ls -la /var/www/html/public/healthz.php || echo "healthz.php not found!"\n\
+echo "Starting Apache..."\n\
+exec apache2-foreground' > /start.sh && chmod +x /start.sh
+
+CMD ["/start.sh"]
