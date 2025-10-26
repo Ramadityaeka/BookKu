@@ -6,35 +6,28 @@ RUN docker-php-ext-install mysqli pdo pdo_mysql
 # Enable Apache modules
 RUN a2enmod rewrite
 
-# Set ServerName to suppress warning
+# Set ServerName
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
-# Set DocumentRoot to public folder for CodeIgniter 4
-ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
-RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
-
-# Configure Apache AllowOverride for .htaccess
-RUN sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
-
-# Copy all files
+# Copy all files first
 COPY . /var/www/html/
 
-# Copy healthz.php to public folder
-RUN cp /var/www/html/healthz.php /var/www/html/public/healthz.php || true
+# Copy healthz.php to public folder (with fallback)
+RUN cp /var/www/html/healthz.php /var/www/html/public/healthz.php 2>/dev/null || echo "<?php header('Content-Type: text/plain'); echo 'OK';" > /var/www/html/public/healthz.php
 
-# Set proper permissions
-RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
+# Configure Apache DocumentRoot to point to public folder
+RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|g' /etc/apache2/sites-available/000-default.conf && \
+    sed -i 's|<Directory /var/www/html>|<Directory /var/www/html/public>|g' /etc/apache2/sites-available/000-default.conf && \
+    sed -i 's|<Directory /var/www/>|<Directory /var/www/html/public>|g' /etc/apache2/apache2.conf && \
+    sed -i 's|AllowOverride None|AllowOverride All|g' /etc/apache2/apache2.conf
 
-# Create and set permissions for writable directories
-RUN mkdir -p /var/www/html/writable/cache \
-    /var/www/html/writable/logs \
-    /var/www/html/writable/session \
-    /var/www/html/writable/uploads && \
-    chown -R www-data:www-data /var/www/html/writable && \
+# Set permissions
+RUN chown -R www-data:www-data /var/www/html && \
+    chmod -R 755 /var/www/html && \
+    mkdir -p /var/www/html/writable/cache /var/www/html/writable/logs /var/www/html/writable/session /var/www/html/writable/uploads && \
     chmod -R 777 /var/www/html/writable
 
-# Expose port 80
+# Expose port
 EXPOSE 80
 
 # Start Apache
