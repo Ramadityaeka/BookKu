@@ -4,10 +4,11 @@ FROM php:8.1-apache
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
+    libicu-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
-RUN docker-php-ext-install mysqli pdo pdo_mysql
+RUN docker-php-ext-install mysqli pdo pdo_mysql intl
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
