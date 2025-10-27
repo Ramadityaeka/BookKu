@@ -26,7 +26,7 @@ class Database extends Config
      *
      * @var array<string, mixed>
      */
-   public array $default = [
+  public array $default = [
     'DSN'          => '',
     'hostname'     => getenv('MYSQLHOST') ?: 'localhost',
     'username'     => getenv('MYSQLUSER') ?: 'root',
