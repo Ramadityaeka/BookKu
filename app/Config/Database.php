@@ -26,12 +26,12 @@ class Database extends Config
      *
      * @var array<string, mixed>
      */
-  public array $default = [
+ public array $default = [
     'DSN'          => '',
     'hostname'     => getenv('MYSQLHOST') ?: 'localhost',
     'username'     => getenv('MYSQLUSER') ?: 'root',
     'password'     => getenv('MYSQLPASSWORD') ?: '',
-    'database'     => getenv('MYSQLDATABASE') ?: 'railway',
+    'database'     => getenv('MYSQLDATABASE') ?: getenv('MYSQL_DATABASE') ?: 'railway',
     'DBDriver'     => 'MySQLi',
     'DBPrefix'     => '',
     'pConnect'     => false,
@@ -43,7 +43,7 @@ class Database extends Config
     'compress'     => false,
     'strictOn'     => false,
     'failover'     => [],
-    'port'         => getenv('MYSQLPORT') ?: 3306,
+    'port'         => (int)(getenv('MYSQLPORT') ?: 3306),
 ];
     /**
      * This database connection is used when
