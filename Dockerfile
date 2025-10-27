@@ -9,13 +9,13 @@ RUN a2enmod rewrite
 # Set ServerName
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
-# Copy all files first
+# Copy all files
 COPY . /var/www/html/
 
-# Copy healthz.php to public folder (with fallback)
-RUN cp /var/www/html/healthz.php /var/www/html/public/healthz.php 2>/dev/null || echo "<?php header('Content-Type: text/plain'); echo 'OK';" > /var/www/html/public/healthz.php
+# Ensure healthz.php exists
+RUN echo "<?php header('Content-Type: text/plain'); echo 'OK';" > /var/www/html/public/healthz.php
 
-# Configure Apache DocumentRoot to point to public folder
+# Configure Apache DocumentRoot
 RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|g' /etc/apache2/sites-available/000-default.conf && \
     sed -i 's|<Directory /var/www/html>|<Directory /var/www/html/public>|g' /etc/apache2/sites-available/000-default.conf && \
     sed -i 's|<Directory /var/www/>|<Directory /var/www/html/public>|g' /etc/apache2/apache2.conf && \
@@ -27,16 +27,17 @@ RUN chown -R www-data:www-data /var/www/html && \
     mkdir -p /var/www/html/writable/cache /var/www/html/writable/logs /var/www/html/writable/session /var/www/html/writable/uploads && \
     chmod -R 777 /var/www/html/writable
 
-# Expose port
-EXPOSE 80
-
-# Create startup script
+# Create startup script that uses PORT env var
 RUN echo '#!/bin/bash\n\
-echo "=== Starting Apache ==="\n\
-echo "DocumentRoot: $(grep DocumentRoot /etc/apache2/sites-available/000-default.conf)"\n\
-echo "Checking healthz.php..."\n\
-ls -la /var/www/html/public/healthz.php || echo "healthz.php not found!"\n\
-echo "Starting Apache..."\n\
+PORT=${PORT:-80}\n\
+echo "=== Configuring Apache to listen on port $PORT ==="\n\
+sed -i "s/Listen 80/Listen $PORT/g" /etc/apache2/ports.conf\n\
+sed -i "s/:80>/:$PORT>/g" /etc/apache2/sites-available/000-default.conf\n\
+echo "=== Starting Apache on port $PORT ==="\n\
 exec apache2-foreground' > /start.sh && chmod +x /start.sh
 
+# Expose Railway PORT
+EXPOSE 80
+
+# Start Apache with PORT config
 CMD ["/start.sh"]
