@@ -24,5 +24,13 @@ RUN chown -R www-data:www-data /var/www/html && \
 # Healthcheck file
 RUN echo "<?php echo 'OK';" > /var/www/html/public/healthz.php
 
-# Use default Apache startup (NO custom script!)
+# Create startup script to handle Railway PORT
+RUN printf '#!/bin/bash\n\
+PORT=${PORT:-80}\n\
+sed -i "s/Listen 80/Listen ${PORT}/g" /etc/apache2/ports.conf\n\
+sed -i "s/:80/:${PORT}/g" /etc/apache2/sites-available/*.conf\n\
+apache2-foreground\n' > /start.sh && chmod +x /start.sh
+
 EXPOSE 80
+
+CMD ["/start.sh"]
