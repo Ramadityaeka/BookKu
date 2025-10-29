@@ -1,9 +1,9 @@
 CI_ENVIRONMENT = production
 
-# Database
-database.default.hostname = localhost
+# Database (Railway)
+database.default.hostname = mysql.railway.internal
 database.default.database = railway
 database.default.username = root
-database.default.password = 
+database.default.password = sDFIdnFnZqXdIMxRfcUfIxtpPoiUiaWq
 database.default.DBDriver = MySQLi
 database.default.port = 3306
