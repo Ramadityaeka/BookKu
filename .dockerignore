@@ -1,20 +1,57 @@
-.gitvendor/
-
-.envwritable/cache/*
-
-vendor/writable/logs/*
-
-writable/cache/writable/session/*
-
-writable/logs/writable/uploads/*
-
-writable/session/writable/debugbar/*
-
-writable/uploads/.env
-
-writable/debugbar/.git
-
-tests/.gitignore
-*.md
+# Git files
+.git
 .gitignore
+.github
+
+# Environment files
+.env
+.env.*
+env
+
+# Documentation
+*.md
+!README.md
+LICENSE
+
+# Test files
+tests/
+phpunit.xml
+phpunit.xml.dist
+.phpunit.result.cache
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Build artifacts
+builds
+*.log
+
+# Writable directory contents (keep structure, not files)
+writable/cache/*
+writable/logs/*
+writable/session/*
+writable/uploads/*
+writable/debugbar/*
+
+# Keep .gitkeep files
+!writable/**/.gitkeep
+
+# Node modules (if any)
+node_modules/
+npm-debug.log
+
+# Composer vendor (will be installed in Dockerfile)
+vendor/
+
+# Docker files (don't copy into image)
 .dockerignore
+docker-compose.yml
+Dockerfile
+
+# OS files
+.DS_Store
+Thumbs.db
