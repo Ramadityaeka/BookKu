@@ -24,7 +24,9 @@ Sistem manajemen buku berbasis PHP & CodeIgniter 4 - Modern, cepat, dan mudah di
 - ✅ SSL/HTTPS enabled
 - ✅ Gratis $5/bulan credit
 
-📖 **[Panduan Lengkap Deployment →](./DEPLOYMENT.md)** | 🚀 **[Quick Start Guide →](./QUICKSTART.md)**
+📖 **[Panduan Lengkap Deployment →](./DEPLOYMENT.md)** | 🚀 **[Quick Start Guide →](./QUICKSTART.md)** | 🔧 **[Troubleshooting Railway →](./RAILWAY_TROUBLESHOOTING.md)**
+
+⚠️ **Error "Whoops!" di Railway?** → [Lihat solusinya di sini](./RAILWAY_TROUBLESHOOTING.md)
 
 ---
 
