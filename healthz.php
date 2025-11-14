@@ -21,16 +21,24 @@ try {
     $conn = new mysqli($host, $user, $pass, $dbname, $port);
     
     if ($conn->connect_error) {
-        $health['checks']['database'] = 'unhealthy: ' . $conn->connect_error;
+        // Don't expose detailed error messages in production
+        $health['checks']['database'] = 'unhealthy';
         $health['status'] = 'degraded';
+        
+        // Log detailed error for debugging (not exposed to client)
+        error_log('Database health check failed: ' . $conn->connect_error);
     } else {
         $health['checks']['database'] = 'connected';
         $dbHealthy = true;
         $conn->close();
     }
 } catch (Exception $e) {
-    $health['checks']['database'] = 'unhealthy: ' . $e->getMessage();
+    // Don't expose detailed error messages in production
+    $health['checks']['database'] = 'unhealthy';
     $health['status'] = 'degraded';
+    
+    // Log detailed error for debugging (not exposed to client)
+    error_log('Database health check exception: ' . $e->getMessage());
 }
 
 // Check writable directory
