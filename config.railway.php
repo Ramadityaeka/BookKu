@@ -1,5 +1,6 @@
 <?php
 // Konfigurasi Database untuk Railway
+// NOTE: This is a standalone example. CodeIgniter uses app/Config/Database.php
 // Railway akan provide environment variables
 
 // Cek apakah di Railway (production) atau local
@@ -24,13 +25,17 @@ try {
     $conn = new mysqli($host, $user, $pass, $dbname, $port);
     
     if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+        // Log error untuk debugging, tapi jangan expose detail ke user
+        error_log("Database connection failed: " . $conn->connect_error);
+        die("Database connection failed. Please check your configuration.");
     }
     
-    // Set charset
+    // Set charset untuk security (prevent SQL injection via charset)
     $conn->set_charset("utf8mb4");
     
 } catch (Exception $e) {
-    die("Database connection error: " . $e->getMessage());
+    // Log error untuk debugging, tapi jangan expose detail ke user
+    error_log("Database connection error: " . $e->getMessage());
+    die("Database connection error. Please check your configuration.");
 }
 ?>

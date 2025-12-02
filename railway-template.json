@@ -1,0 +1,58 @@
+{
+  "name": "BookKu - Book Management System",
+  "description": "A complete book management system built with PHP & CodeIgniter 4. Features include book CRUD operations, categories, search & filtering, and user authentication.",
+  "services": [
+    {
+      "name": "bookku-app",
+      "source": {
+        "type": "repo",
+        "repo": "Ramadityaeka/BookKu"
+      },
+      "build": {
+        "builder": "DOCKERFILE",
+        "dockerfilePath": "Dockerfile"
+      },
+      "deploy": {
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 10,
+        "healthcheckPath": "/healthz.php",
+        "healthcheckTimeout": 300
+      },
+      "env": {
+        "CI_ENVIRONMENT": {
+          "description": "CodeIgniter environment",
+          "value": "production"
+        }
+      },
+      "domains": [
+        {
+          "generateDomain": true
+        }
+      ]
+    },
+    {
+      "name": "bookku-database",
+      "image": "mysql:8.0",
+      "env": {
+        "MYSQL_ROOT_PASSWORD": {
+          "generate": true
+        },
+        "MYSQL_DATABASE": {
+          "value": "bookku"
+        }
+      },
+      "volumes": [
+        {
+          "mountPath": "/var/lib/mysql"
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "from": "bookku-app",
+      "to": "bookku-database",
+      "envPrefix": "MYSQL"
+    }
+  ]
+}

@@ -1,27 +1,71 @@
 # BookKu 📚
 
-Sistem manajemen buku berbasis PHP & CodeIgniter.
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template?template=https://github.com/Ramadityaeka/BookKu)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![PHP Version](https://img.shields.io/badge/PHP-8.1%2B-blue)](https://www.php.net/)
+[![CodeIgniter](https://img.shields.io/badge/CodeIgniter-4.x-orange)](https://codeigniter.com/)
 
-## 🌐 Live Demo
-**Deploy to Railway:** [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template?template=https://github.com/Ramadityaeka/BookKu)
+Sistem manajemen buku berbasis PHP & CodeIgniter 4 - Modern, cepat, dan mudah di-deploy!
 
-## 🚀 Deploy ke Railway
+## 🌐 Deploy ke Public (Railway)
 
-### Quick Steps:
-1. Fork/Clone repo ini
-2. Daftar di [Railway.app](https://railway.app)
-3. Klik "Deploy from GitHub repo"
-4. Pilih `Ramadityaeka/BookKu`
-5. Tambah MySQL database (+ New → Database → MySQL)
-6. Connect database ke app (Variables → Add Reference)
-7. Generate domain (Settings → Networking → Generate Domain)
+**DEPLOY SEKARANG - Gratis & Mudah!**
 
-### File yang diperlukan (sudah ada):
-- ✅ `Dockerfile` - Container configuration
-- ✅ `railway.json` - Railway deployment settings
-- ✅ `config.railway.php` - Database config untuk production
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template?template=https://github.com/Ramadityaeka/BookKu)
 
-## 💻 Install Lokal
+**Hanya 3 klik:**
+1. Klik tombol "Deploy on Railway" di atas
+2. Login dengan GitHub
+3. Klik "Deploy" - Selesai! 🚀
+
+**Aplikasi Anda akan live dalam 5 menit dengan:**
+- ✅ Domain publik otomatis (https://your-app.up.railway.app)
+- ✅ MySQL database configured
+- ✅ SSL/HTTPS enabled
+- ✅ Gratis $5/bulan credit
+
+📖 **[Panduan Lengkap Deployment →](./DEPLOYMENT.md)** | 🚀 **[Quick Start Guide →](./QUICKSTART.md)** | 🔧 **[Troubleshooting Railway →](./RAILWAY_TROUBLESHOOTING.md)**
+
+⚠️ **Error "Whoops!" di Railway?** → [Lihat solusinya di sini](./RAILWAY_TROUBLESHOOTING.md)
+
+---
+
+## 🚀 Alternative Deployment Options
+
+### Deploy dengan Railway CLI
+```bash
+# Install Railway CLI
+npm i -g @railway/cli
+
+# Clone repository
+git clone https://github.com/Ramadityaeka/BookKu.git
+cd BookKu
+
+# Login dan deploy
+railway login
+railway init
+railway up
+```
+
+### Deploy dengan Docker
+```bash
+# Build image
+docker build -t bookku .
+
+# Run dengan docker-compose
+docker-compose up -d
+```
+
+### Deploy ke Platform Lain
+BookKu juga bisa di-deploy ke:
+- **Heroku** - Gunakan Dockerfile
+- **DigitalOcean App Platform** - Auto-detect Dockerfile
+- **Google Cloud Run** - Container deployment
+- **AWS Elastic Beanstalk** - Docker deployment
+
+---
+
+## 💻 Install Lokal (Development)
 
 ```bash
 # Clone repository
@@ -32,13 +76,13 @@ cd BookKu
 mysql -u root -p
 CREATE DATABASE bookku;
 USE bookku;
-SOURCE database.sql;
+SOURCE db_bookku.sql;
 
 # Jalankan dengan PHP built-in server
-php -S localhost:8000
+php spark serve
 
 # Atau dengan Apache/Nginx
-# Arahkan document root ke folder BookKu
+# Arahkan document root ke folder BookKu/public
 ```
 
 ## 📋 Requirements
@@ -50,13 +94,52 @@ php -S localhost:8000
 ## 📂 Struktur Project
 ```
 BookKu/
-├── app/                 # CodeIgniter application
-├── public/              # Public assets
-├── writable/            # Cache, logs, uploads
-├── Dockerfile           # Docker configuration (Railway)
-├── railway.json         # Railway deployment config
+├── app/                    # CodeIgniter application
+│   ├── Config/            # Configuration files
+│   ├── Controllers/       # Controllers
+│   ├── Models/            # Models
+│   └── Views/             # Views
+├── public/                 # Public assets (document root)
+├── writable/               # Cache, logs, uploads
+├── docker-compose.yml      # Docker Compose for local dev
+├── Dockerfile              # Docker configuration
+├── railway.json            # Railway deployment config
+├── railway.toml            # Railway build config
+├── railway-template.json   # One-click deploy template
+├── deploy-railway.sh       # Automated deployment script
+├── validate-config.sh      # Configuration validator
+├── DEPLOYMENT.md           # Comprehensive deployment guide
+├── QUICKSTART.md           # Quick start guide
 └── README.md
 ```
+
+## 🛠️ Development Tools
+
+### Validate Your Configuration
+Sebelum deploy, pastikan semua konfigurasi sudah benar:
+```bash
+./validate-config.sh
+```
+
+Script ini akan check:
+- ✅ Required files exists
+- ✅ JSON configurations valid
+- ✅ Dockerfile correct
+- ✅ Database schema available
+- ✅ App configuration proper
+
+### Automated Deployment
+Gunakan script otomatis untuk deploy:
+```bash
+./deploy-railway.sh
+```
+
+Script akan handle:
+- Railway CLI installation
+- Project initialization
+- Database setup
+- Deployment process
+- Domain generation
 
 ## 🔧 Configuration
 
